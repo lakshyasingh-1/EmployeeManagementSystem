@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Employees | EmployeeMS</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/employee.css}">
+
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+
+<nav class="emp-navbar">
+
+    <div class="emp-logo">
+
+        <div class="emp-logo-icon">
+            E
+        </div>
+
+        <span>
+            Employee<span class="emp-blue">MS</span>
+        </span>
+
+    </div>
+
+
+    <div class="emp-nav-links">
+
+        <a th:href="@{/}">
+            Home
+        </a>
+
+        <a th:href="@{/employees}">
+            Employees
+        </a>
+
+    </div>
+
+</nav>
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="emp-main">
+
+    <!-- Header -->
+
+    <div class="emp-header">
+
+        <div>
+
+            <div class="emp-badge">
+                EMPLOYEE MANAGEMENT SYSTEM
+            </div>
+
+            <h1>
+                Employee Records
+            </h1>
+
+            <p>
+                Manage all your employees from one place.
+            </p>
+
+        </div>
+
+
+        <a th:href="@{/add-employee}"
+           class="emp-add-btn">
+
+            + Add Employee
+
+        </a>
+
+    </div>
+
+
+    <!-- Search -->
+
+    <div class="emp-search">
+
+        <span>⌕</span>
+
+        <input
+                type="text"
+                id="searchInput"
+                placeholder="Search employees..."
+        >
+
+    </div>
+
+
+    <!-- Employee Table -->
+
+    <div class="emp-table-card">
+
+        <table id="employeeTable">
+
+            <thead>
+
+            <tr>
+
+                <th>Employee ID</th>
+
+                <th>Employee Name</th>
+
+                <th>Email</th>
+
+                <th>Department</th>
+
+                <th>Salary</th>
+
+                <th>Action</th>
+
+            </tr>
+
+            </thead>
+
+
+            <tbody>
+
+            <tr th:each="employee : ${employees}">
+
+                <td th:text="${employee.id}">
+                    1
+                </td>
+
+
+                <td>
+
+                    <strong th:text="${employee.name}">
+                        Rahul
+                    </strong>
+
+                </td>
+
+
+                <td th:text="${employee.email}">
+                    rahul@gmail.com
+                </td>
+
+
+                <td>
+
+                    <span class="emp-department"
+                          th:text="${employee.department}">
+                        IT
+                    </span>
+
+                </td>
+
+
+                <td th:text="${employee.salary}">
+                    50000
+                </td>
+
+
+                <td>
+
+                    <div class="emp-actions">
+
+                        <a th:href="@{/edit-employee(id=${employee.id})}"
+                           class="emp-edit">
+
+                            Edit
+
+                        </a>
+
+
+                        <a th:href="@{/delete-employee(id=${employee.id})}"
+                           class="emp-delete"
+                           onclick="return confirm('Are you sure you want to delete this employee?');">
+
+                            Delete
+
+                        </a>
+
+                    </div>
+
+                </td>
+
+            </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</main>
+
+
+<!-- ================= SEARCH ================= -->
+
+<script>
+
+    const searchInput =
+        document.getElementById("searchInput");
+
+    searchInput.addEventListener("keyup", function () {
+
+        const value =
+            searchInput.value.toLowerCase();
+
+        const rows =
+            document.querySelectorAll(
+                "#employeeTable tbody tr"
+            );
+
+        rows.forEach(function (row) {
+
+            const text =
+                row.textContent.toLowerCase();
+
+            row.style.display =
+                text.includes(value) ? "" : "none";
+
+        });
+
+    });
+
+</script>
+
+
+</body>
+
+</html>
